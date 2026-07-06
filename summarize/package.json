@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "summarize",
+  "displayName": "Text Summarization",
+  "description": "Generate a concise summary of the input text.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "summary", "productivity"],
+  "tags": ["summary", "chinese", "short", "text"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

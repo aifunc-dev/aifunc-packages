@@ -1,0 +1,99 @@
+{
+  "version": "1.0.0",
+  "name": "score-quality",
+  "description": "Evaluate text quality across multiple dimensions and return structured scores with improvement advice.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text content to evaluate.",
+        "minLength": 1
+      },
+      "targetAudience": {
+        "type": "string",
+        "description": "Intended readers (e.g. 'developers', 'customers', 'students', 'executives').",
+        "default": "general readers"
+      },
+      "purpose": {
+        "type": "string",
+        "description": "Writing purpose (e.g. 'explanation', 'marketing', 'support', 'learning').",
+        "default": "general communication"
+      },
+      "maxSuggestions": {
+        "type": "integer",
+        "description": "Maximum number of improvement suggestions to return.",
+        "minimum": 1,
+        "maximum": 10,
+        "default": 3
+      },
+      "strictness": {
+        "type": "integer",
+        "description": "Evaluation strictness from 1 (lenient) to 5 (very strict).",
+        "minimum": 1,
+        "maximum": 5,
+        "default": 3
+      }
+    },
+    "required": ["text"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "overallScore": {
+        "type": "integer",
+        "description": "Overall quality score from 0 to 100.",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "clarityScore": {
+        "type": "integer",
+        "description": "Clarity score from 0 to 100.",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "structureScore": {
+        "type": "integer",
+        "description": "Organization and logical structure score from 0 to 100.",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "toneScore": {
+        "type": "integer",
+        "description": "Tone suitability score from 0 to 100.",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "actionabilityScore": {
+        "type": "integer",
+        "description": "How actionable and useful the text is, from 0 to 100.",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "level": {
+        "type": "string",
+        "description": "Overall quality level.",
+        "enum": ["excellent", "good", "fair", "poor"]
+      },
+      "summary": {
+        "type": "string",
+        "description": "One short sentence summarizing the evaluation."
+      },
+      "suggestions": {
+        "type": "array",
+        "description": "Concise improvement suggestions, ordered by importance.",
+        "items": { "type": "string" },
+        "minItems": 0
+      }
+    },
+    "required": ["overallScore", "clarityScore", "structureScore", "toneScore", "actionabilityScore", "level", "summary", "suggestions"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

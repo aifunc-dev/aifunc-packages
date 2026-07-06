@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "generate-email",
+  "displayName": "Generate Email",
+  "description": "Generate a complete email from a brief description of intent and context.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "writing", "productivity"],
+  "tags": ["email", "compose", "business", "communication"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "name": "extract-entities",
+  "description": "Extract named entities from text, identifying their type and position.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text to extract entities from.",
+        "minLength": 1
+      },
+      "entityTypes": {
+        "type": "array",
+        "description": "Optional filter: only extract entities of these types. If omitted, extract all recognized types.",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "required": ["text"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "entities": {
+        "type": "array",
+        "description": "List of extracted entities.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "The entity text as it appears in the input."
+            },
+            "type": {
+              "type": "string",
+              "description": "Entity type (e.g. 'person', 'location', 'organization', 'date', 'money', 'product')."
+            },
+            "start": {
+              "type": "integer",
+              "description": "Start character offset in the input text (0-based).",
+              "minimum": 0
+            },
+            "end": {
+              "type": "integer",
+              "description": "End character offset (exclusive) in the input text.",
+              "minimum": 0
+            }
+          },
+          "required": ["text", "type", "start", "end"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["entities"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

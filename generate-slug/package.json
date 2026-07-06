@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "generate-slug",
+  "displayName": "SEO Slug Generator",
+  "description": "Generate SEO-friendly URL slugs, meta descriptions, and tag suggestions from titles.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "seo", "content"],
+  "tags": ["slug", "seo", "meta", "url", "content"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

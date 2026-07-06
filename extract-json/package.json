@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "extract-json",
+  "displayName": "Structured JSON Extraction",
+  "description": "Extract structured JSON data from natural language text based on a user-defined field schema.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "extraction", "structured-data"],
+  "tags": ["json", "extraction", "structured", "schema", "parsing"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

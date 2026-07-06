@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "delay": { "minMs": 30, "maxMs": 120 },
+  "random": { "enabled": false, "seed": "generate-email" },
+  "cases": [
+    {
+      "id": "refund-request",
+      "description": "Generate a formal refund request email.",
+      "output": {
+        "subject": "Request for Order Refund — Order #12345",
+        "body": "Dear Customer Support,\n\nI am writing to request a refund for Order #12345 placed on June 1, 2026. The item arrived damaged and does not match the product description on your website.\n\nCould you please process a full refund at your earliest convenience? I am happy to return the item if required.\n\nThank you for your assistance.\n\nBest regards,\nAlex"
+      }
+    }
+  ]
+}

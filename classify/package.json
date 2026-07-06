@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "classify",
+  "displayName": "Text Classification",
+  "description": "Classify text into user-defined categories with confidence scores (zero-shot).",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "classification", "nlp"],
+  "tags": ["classify", "categorize", "zero-shot", "routing"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

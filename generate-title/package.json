@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "generate-title",
+  "displayName": "Generate Title",
+  "description": "Generate title or headline candidates for a piece of content.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "writing", "seo"],
+  "tags": ["title", "headline", "seo", "content", "blog"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

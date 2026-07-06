@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "name": "translate",
+  "description": "Translate text into a specified target language with automatic source language detection.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text to be translated.",
+        "minLength": 1
+      },
+      "targetLang": {
+        "type": "string",
+        "description": "Target language (e.g. 'English', '日本語', 'zh-CN').",
+        "minLength": 1
+      },
+      "sourceLang": {
+        "type": "string",
+        "description": "Source language. If omitted, it will be auto-detected."
+      }
+    },
+    "required": ["text", "targetLang"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "translation": {
+        "type": "string",
+        "description": "The translated text."
+      },
+      "sourceLang": {
+        "type": "string",
+        "description": "The source language (auto-detected if sourceLang was not provided)."
+      }
+    },
+    "required": ["translation", "sourceLang"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

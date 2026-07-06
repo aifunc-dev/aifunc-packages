@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 120
+  },
+  "random": {
+    "enabled": false,
+    "seed": "generate-reply"
+  },
+  "cases": [
+    {
+      "id": "friendly-reply",
+      "description": "Generate a friendly reply to a customer message.",
+      "output": {
+        "reply": "Thanks for reaching out! I completely understand your concern and I'm happy to help sort this out for you. Let me look into it right away."
+      }
+    }
+  ]
+}

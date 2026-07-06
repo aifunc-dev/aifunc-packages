@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "name": "generate-email",
+  "description": "Generate a complete email from a brief description of intent and context.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "intent": {
+        "type": "string",
+        "description": "What the email should accomplish.",
+        "minLength": 1
+      },
+      "tone": {
+        "type": "string",
+        "description": "Desired tone: 'formal', 'friendly', 'assertive'. Default: 'formal'."
+      },
+      "senderName": {
+        "type": "string",
+        "description": "Name of the sender, used in the sign-off."
+      },
+      "recipientName": {
+        "type": "string",
+        "description": "Name or role of the recipient, used in the greeting."
+      },
+      "keyPoints": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Specific points or details to include in the email body."
+      },
+      "language": {
+        "type": "string",
+        "description": "Email language. Default: 'English'."
+      }
+    },
+    "required": ["intent"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "subject": {
+        "type": "string",
+        "description": "Suggested email subject line."
+      },
+      "body": {
+        "type": "string",
+        "description": "Full email body including greeting and sign-off."
+      }
+    },
+    "required": ["subject", "body"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "manifestVersion": 1,
+  "latest": {
+    "typescript": "0.1.0",
+    "python": "0.1.0"
+  },
+  "versions": {
+    "0.1.0": {
+      "releaseDate": "2025-06-13",
+      "minCliVersion": "0.1.0",
+      "packageSchemaVersion": "0.1.0",
+      "deprecated": false,
+      "changelog": "Initial release",
+      "languages": {
+        "typescript": {
+          "status": "stable",
+          "path": "typescript/v0.1.0",
+          "integrity": null
+        },
+        "python": {
+          "status": "stable",
+          "path": "python/v0_1_0",
+          "integrity": null
+        }
+      }
+    }
+  },
+  "deprecations": {}
+}

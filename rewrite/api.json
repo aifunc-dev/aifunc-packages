@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "name": "rewrite",
+  "description": "Rewrite text according to a specified style or instruction while preserving the original meaning.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The original text to rewrite.",
+        "minLength": 1
+      },
+      "style": {
+        "type": "string",
+        "description": "Target style or tone (e.g. 'formal', 'casual', 'concise', 'expanded', 'academic', 'humorous').",
+        "minLength": 1
+      },
+      "instructions": {
+        "type": "string",
+        "description": "Additional rewriting instructions or constraints."
+      }
+    },
+    "required": ["text", "style"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "rewritten": {
+        "type": "string",
+        "description": "The rewritten text."
+      }
+    },
+    "required": ["rewritten"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "extract-keywords",
+  "displayName": "Keyword Extraction",
+  "description": "Extract keywords and key phrases from text with relevance scores.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "nlp", "search"],
+  "tags": ["keyword", "extraction", "seo", "tagging"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

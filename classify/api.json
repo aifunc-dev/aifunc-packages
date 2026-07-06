@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "name": "classify",
+  "description": "Classify text into user-defined categories with confidence scores.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text to classify.",
+        "minLength": 1
+      },
+      "categories": {
+        "type": "array",
+        "description": "List of candidate categories to classify into.",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 2
+      },
+      "allowMultiple": {
+        "type": "boolean",
+        "description": "If true, the text can be assigned to multiple categories. Defaults to false.",
+        "default": false
+      }
+    },
+    "required": ["text", "categories"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "classifications": {
+        "type": "array",
+        "description": "Classification results sorted by confidence (highest first).",
+        "items": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "The category label."
+            },
+            "confidence": {
+              "type": "number",
+              "description": "Confidence score between 0 and 1.",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": ["category", "confidence"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["classifications"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

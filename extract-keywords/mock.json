@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 100
+  },
+  "random": {
+    "enabled": false,
+    "seed": "keyword-extract"
+  },
+  "cases": [
+    {
+      "id": "tech-article",
+      "description": "Keyword extraction from a tech article.",
+      "output": {
+        "keywords": [
+          { "word": "machine learning", "relevance": 0.95 },
+          { "word": "neural network", "relevance": 0.88 },
+          { "word": "deep learning", "relevance": 0.82 },
+          { "word": "training data", "relevance": 0.75 },
+          { "word": "model accuracy", "relevance": 0.70 }
+        ]
+      }
+    }
+  ]
+}

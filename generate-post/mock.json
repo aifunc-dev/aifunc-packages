@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "delay": { "minMs": 30, "maxMs": 120 },
+  "random": { "enabled": false, "seed": "generate-post" },
+  "cases": [
+    {
+      "id": "linkedin-post",
+      "description": "Generate a professional LinkedIn post.",
+      "output": {
+        "post": "Excited to share that our team just shipped a major product update — three months of work packed into one release. Proud of everyone involved. Growth is never a straight line, but this milestone proves consistency pays off.",
+        "hashtags": ["ProductLaunch", "TeamWork", "Growth"],
+        "charCount": 221
+      }
+    }
+  ]
+}

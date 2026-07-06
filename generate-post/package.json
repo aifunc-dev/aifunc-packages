@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "generate-post",
+  "displayName": "Generate Post",
+  "description": "Generate a social media post or short article from a topic or brief.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "writing", "social-media"],
+  "tags": ["post", "social", "linkedin", "twitter", "instagram"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

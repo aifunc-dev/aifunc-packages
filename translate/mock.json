@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 120
+  },
+  "random": {
+    "enabled": false,
+    "seed": "translate"
+  },
+  "cases": [
+    {
+      "id": "zh-to-en",
+      "description": "Translate Chinese text to English with auto-detected source language.",
+      "output": {
+        "translation": "Artificial intelligence is changing the way we work and live.",
+        "sourceLang": "zh-CN"
+      }
+    }
+  ]
+}

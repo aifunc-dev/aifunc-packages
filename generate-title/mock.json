@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "delay": { "minMs": 30, "maxMs": 120 },
+  "random": { "enabled": false, "seed": "generate-title" },
+  "cases": [
+    {
+      "id": "blog-titles",
+      "description": "Generate neutral title candidates for a blog post.",
+      "output": {
+        "titles": [
+          "How to Build Better Habits That Actually Stick",
+          "The Science Behind Lasting Habit Formation",
+          "A Practical Guide to Changing Your Daily Routines"
+        ]
+      }
+    }
+  ]
+}

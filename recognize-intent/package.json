@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "recognize-intent",
+  "displayName": "Intent Recognition",
+  "description": "Recognize user intent from conversational text with confidence scores (zero-shot).",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "classification", "nlp", "conversational"],
+  "tags": ["intent", "recognition", "routing", "zero-shot", "conversational"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

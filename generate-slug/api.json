@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "name": "generate-slug",
+  "description": "Generate an SEO-friendly URL slug, meta description, and tag suggestions from a title.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "The article or page title.",
+        "minLength": 1
+      },
+      "description": {
+        "type": "string",
+        "description": "Optional longer description to inform slug and meta generation."
+      },
+      "language": {
+        "type": "string",
+        "description": "Content language hint (e.g. 'en', 'zh-CN'). Slug will always be ASCII."
+      }
+    },
+    "required": ["title"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "slug": {
+        "type": "string",
+        "description": "URL-safe slug using lowercase ASCII letters, numbers, and hyphens."
+      },
+      "metaDescription": {
+        "type": "string",
+        "description": "SEO meta description (120-160 characters recommended)."
+      },
+      "tags": {
+        "type": "array",
+        "description": "Suggested tags or keywords for the content.",
+        "items": { "type": "string" }
+      }
+    },
+    "required": ["slug", "metaDescription", "tags"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

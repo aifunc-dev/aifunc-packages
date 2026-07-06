@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "generate-reply",
+  "description": "Generate a contextually appropriate reply to a message or comment.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "message": {
+        "type": "string",
+        "description": "The original message or comment to reply to.",
+        "minLength": 1
+      },
+      "tone": {
+        "type": "string",
+        "description": "Desired tone: 'friendly', 'formal', 'empathetic', 'concise'. Default: 'friendly'."
+      },
+      "context": {
+        "type": "string",
+        "description": "Background context to inform the reply (e.g. role, situation)."
+      },
+      "language": {
+        "type": "string",
+        "description": "Reply language. If omitted, matches the input message language."
+      }
+    },
+    "required": ["message"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "reply": {
+        "type": "string",
+        "description": "The generated reply text."
+      }
+    },
+    "required": ["reply"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "name": "detect-language",
+  "description": "Detect the language of input text, returning a language code, language name, and confidence score.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text whose language should be detected.",
+        "minLength": 1
+      }
+    },
+    "required": ["text"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "language": {
+        "type": "string",
+        "description": "Detected language code (e.g. 'en', 'zh-CN', 'ja', 'fr')."
+      },
+      "languageName": {
+        "type": "string",
+        "description": "Human-readable name of the detected language (e.g. 'English', '中文', '日本語')."
+      },
+      "confidence": {
+        "type": "number",
+        "description": "Confidence score between 0 and 1.",
+        "minimum": 0,
+        "maximum": 1
+      }
+    },
+    "required": ["language", "languageName", "confidence"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

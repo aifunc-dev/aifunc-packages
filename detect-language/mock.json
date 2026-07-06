@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 20,
+    "maxMs": 80
+  },
+  "random": {
+    "enabled": false,
+    "seed": "detect-language"
+  },
+  "cases": [
+    {
+      "id": "english-text",
+      "description": "English text detection.",
+      "output": {
+        "language": "en",
+        "languageName": "English",
+        "confidence": 0.98
+      }
+    }
+  ]
+}

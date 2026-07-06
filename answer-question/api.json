@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "name": "answer-question",
+  "description": "Answer a question based on provided context or general knowledge.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "question": {
+        "type": "string",
+        "description": "The question to answer.",
+        "minLength": 1
+      },
+      "context": {
+        "type": "string",
+        "description": "Source text or document to base the answer on. If omitted, uses general knowledge."
+      },
+      "maxLength": {
+        "type": "integer",
+        "minimum": 20,
+        "maximum": 500,
+        "description": "Maximum word count for the answer. Default: 100."
+      },
+      "language": {
+        "type": "string",
+        "description": "Answer language. If omitted, matches the question language."
+      }
+    },
+    "required": ["question"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "answer": {
+        "type": "string",
+        "description": "The generated answer."
+      },
+      "grounded": {
+        "type": "boolean",
+        "description": "True if the answer is based on the provided context, false if from general knowledge."
+      },
+      "confidence": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Confidence score between 0 and 1."
+      }
+    },
+    "required": ["answer", "grounded", "confidence"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

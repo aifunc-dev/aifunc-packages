@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 100
+  },
+  "random": {
+    "enabled": false,
+    "seed": "short-summary"
+  },
+  "cases": [
+    {
+      "id": "basic-summary",
+      "description": "Basic summary example.",
+      "output": {
+        "summary": "This article introduces a common AI function for generating concise summaries from input text.",
+        "wordCount": 16
+      }
+    }
+  ]
+}

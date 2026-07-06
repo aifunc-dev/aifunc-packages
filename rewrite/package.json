@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "rewrite",
+  "displayName": "Text Rewrite",
+  "description": "Rewrite text in a specified style or tone, such as formal, casual, concise, or expanded.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "writing", "productivity"],
+  "tags": ["rewrite", "paraphrase", "style", "tone"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

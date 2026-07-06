@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 100
+  },
+  "random": {
+    "enabled": false,
+    "seed": "generate-slug"
+  },
+  "cases": [
+    {
+      "id": "chinese-article",
+      "description": "Generate slug from a Chinese article title.",
+      "output": {
+        "slug": "getting-started-with-machine-learning",
+        "metaDescription": "A beginner-friendly guide to understanding the fundamentals of machine learning, covering key concepts and practical applications.",
+        "tags": ["machine learning", "beginner", "AI", "tutorial"]
+      }
+    }
+  ]
+}

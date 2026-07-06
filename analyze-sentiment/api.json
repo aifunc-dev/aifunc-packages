@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "name": "analyze-sentiment",
+  "description": "Analyze the sentiment of input text with customizable labels (zero-shot classification).",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text to analyze sentiment for.",
+        "minLength": 1
+      },
+      "labels": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": "Candidate sentiment labels. Defaults to [\"positive\", \"negative\", \"neutral\"].",
+        "minItems": 2,
+        "default": ["positive", "negative", "neutral"]
+      },
+      "topK": {
+        "type": "integer",
+        "description": "Return only the top K labels by score. If omitted, return all.",
+        "minimum": 1
+      }
+    },
+    "required": ["text"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "label": {
+        "type": "string",
+        "description": "The highest-scoring sentiment label."
+      },
+      "confidence": {
+        "type": "number",
+        "description": "Confidence score of the top label, between 0 and 1.",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "rankings": {
+        "type": "array",
+        "description": "All labels ranked by score (highest first), limited by topK.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Sentiment label."
+            },
+            "score": {
+              "type": "number",
+              "description": "Score between 0 and 1.",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": ["label", "score"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["label", "confidence", "rankings"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

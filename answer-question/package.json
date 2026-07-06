@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "answer-question",
+  "displayName": "Answer Question",
+  "description": "Answer a question based on provided context or general knowledge.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "qa", "knowledge"],
+  "tags": ["qa", "question", "answer", "rag", "knowledge-base"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

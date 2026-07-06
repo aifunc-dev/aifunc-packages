@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "summarize",
+  "description": "Generate a concise summary of the input text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text to summarize.",
+        "minLength": 1
+      },
+      "maxLength": {
+        "type": "integer",
+        "description": "Maximum word count for the summary. Defaults to 80.",
+        "minimum": 20,
+        "maximum": 300,
+        "default": 80
+      }
+    },
+    "required": ["text"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "summary": {
+        "type": "string",
+        "description": "The generated summary."
+      },
+      "wordCount": {
+        "type": "integer",
+        "description": "Approximate word count of the summary.",
+        "minimum": 0
+      }
+    },
+    "required": ["summary", "wordCount"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

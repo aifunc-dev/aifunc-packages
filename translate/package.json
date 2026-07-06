@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "translate",
+  "displayName": "Text Translation",
+  "description": "Translate text into a specified target language with automatic source language detection.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "translation", "i18n"],
+  "tags": ["translate", "multilingual", "i18n", "text"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

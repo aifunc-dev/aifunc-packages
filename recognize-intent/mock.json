@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 100
+  },
+  "random": {
+    "enabled": false,
+    "seed": "intent-recognition"
+  },
+  "cases": [
+    {
+      "id": "order-query",
+      "description": "User asking about order status.",
+      "output": {
+        "intent": "query_order",
+        "confidence": 0.91,
+        "rankings": [
+          { "intent": "query_order", "confidence": 0.91 },
+          { "intent": "request_refund", "confidence": 0.05 },
+          { "intent": "general_inquiry", "confidence": 0.04 }
+        ]
+      }
+    }
+  ]
+}

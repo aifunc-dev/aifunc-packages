@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 100
+  },
+  "random": {
+    "enabled": false,
+    "seed": "text-classify"
+  },
+  "cases": [
+    {
+      "id": "support-ticket",
+      "description": "Classify a support ticket into categories.",
+      "output": {
+        "classifications": [
+          { "category": "billing", "confidence": 0.85 },
+          { "category": "technical", "confidence": 0.10 },
+          { "category": "general", "confidence": 0.05 }
+        ]
+      }
+    }
+  ]
+}

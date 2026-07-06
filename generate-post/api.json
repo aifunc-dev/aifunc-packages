@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "name": "generate-post",
+  "description": "Generate a social media post or short article from a topic or brief.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "topic": {
+        "type": "string",
+        "description": "The subject or key idea of the post.",
+        "minLength": 1
+      },
+      "platform": {
+        "type": "string",
+        "description": "Target platform: 'twitter', 'linkedin', 'instagram', 'general'. Default: 'general'."
+      },
+      "tone": {
+        "type": "string",
+        "description": "Desired tone (e.g. 'professional', 'casual', 'inspirational'). Default: 'casual'."
+      },
+      "maxLength": {
+        "type": "integer",
+        "description": "Maximum character count.",
+        "minimum": 10,
+        "maximum": 2000
+      },
+      "includeHashtags": {
+        "type": "boolean",
+        "description": "Whether to append relevant hashtags. Default: false."
+      }
+    },
+    "required": ["topic"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "post": {
+        "type": "string",
+        "description": "The generated post content."
+      },
+      "hashtags": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Suggested hashtags (empty if includeHashtags is false)."
+      },
+      "charCount": {
+        "type": "integer",
+        "description": "Character count of the generated post."
+      }
+    },
+    "required": ["post", "hashtags", "charCount"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

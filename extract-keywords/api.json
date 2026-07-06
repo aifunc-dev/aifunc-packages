@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "name": "extract-keywords",
+  "description": "Extract keywords and key phrases from text, ranked by relevance.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text to extract keywords from.",
+        "minLength": 1
+      },
+      "maxKeywords": {
+        "type": "integer",
+        "description": "Maximum number of keywords to return. Defaults to 10.",
+        "minimum": 1,
+        "maximum": 50,
+        "default": 10
+      }
+    },
+    "required": ["text"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "keywords": {
+        "type": "array",
+        "description": "Extracted keywords sorted by relevance (highest first).",
+        "items": {
+          "type": "object",
+          "properties": {
+            "word": {
+              "type": "string",
+              "description": "The keyword or key phrase."
+            },
+            "relevance": {
+              "type": "number",
+              "description": "Relevance score between 0 and 1.",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": ["word", "relevance"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["keywords"],
+    "additionalProperties": false
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "OUTPUT_SCHEMA_MISMATCH", "message": "Model output does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

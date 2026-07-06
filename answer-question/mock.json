@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "delay": { "minMs": 30, "maxMs": 120 },
+  "random": { "enabled": false, "seed": "answer-question" },
+  "cases": [
+    {
+      "id": "context-based-answer",
+      "description": "Answer a question based on provided context.",
+      "output": {
+        "answer": "The project was completed three weeks ahead of schedule due to the team's efficient sprint planning and early resolution of key technical blockers.",
+        "grounded": true,
+        "confidence": 0.92
+      }
+    }
+  ]
+}

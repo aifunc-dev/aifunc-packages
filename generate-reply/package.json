@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "generate-reply",
+  "displayName": "Generate Reply",
+  "description": "Generate a contextually appropriate reply to a message or comment.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "writing", "productivity"],
+  "tags": ["reply", "message", "response", "tone"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

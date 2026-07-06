@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 50,
+    "maxMs": 150
+  },
+  "random": {
+    "enabled": false,
+    "seed": "score-quality"
+  },
+  "cases": [
+    {
+      "id": "developer-doc",
+      "description": "Evaluate quality of a developer-facing documentation paragraph.",
+      "output": {
+        "overallScore": 72,
+        "clarityScore": 78,
+        "structureScore": 70,
+        "toneScore": 80,
+        "actionabilityScore": 62,
+        "level": "good",
+        "summary": "The text is clear and well-toned but could be more actionable and better structured.",
+        "suggestions": [
+          "Add a concrete code example to illustrate the main concept.",
+          "Break the paragraph into shorter sections with subheadings.",
+          "End with a clear next step or call to action."
+        ]
+      }
+    }
+  ]
+}

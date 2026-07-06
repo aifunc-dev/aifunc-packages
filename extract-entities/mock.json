@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 120
+  },
+  "random": {
+    "enabled": false,
+    "seed": "extract-entity"
+  },
+  "cases": [
+    {
+      "id": "news-sentence",
+      "description": "Entity extraction from a news sentence.",
+      "output": {
+        "entities": [
+          { "text": "Apple", "type": "organization", "start": 0, "end": 5 },
+          { "text": "Tim Cook", "type": "person", "start": 10, "end": 18 },
+          { "text": "Cupertino", "type": "location", "start": 33, "end": 42 },
+          { "text": "March 2024", "type": "date", "start": 46, "end": 56 }
+        ]
+      }
+    }
+  ]
+}

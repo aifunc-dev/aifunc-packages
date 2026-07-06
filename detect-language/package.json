@@ -1,0 +1,21 @@
+{
+  "type": "standalone",
+  "name": "detect-language",
+  "displayName": "Language Detection",
+  "description": "Detect the language of input text, returning a language code and confidence score.",
+  "version": "1.0.0",
+  "engine": "^0.1.0",
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "nlp", "i18n"],
+  "tags": ["language", "detection", "multilingual", "i18n"],
+  "output": {
+    "repair": true,
+    "retry": {
+      "maxAttempts": 3,
+      "on": ["invalid_json", "schema_mismatch", "timeout"]
+    }
+  }
+}

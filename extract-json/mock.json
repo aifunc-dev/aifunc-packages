@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 150
+  },
+  "random": {
+    "enabled": false,
+    "seed": "json-extract"
+  },
+  "cases": [
+    {
+      "id": "resume-extraction",
+      "description": "Extract structured info from a resume snippet.",
+      "output": {
+        "extracted": {
+          "name": "Zhang Wei",
+          "email": "zhangwei@example.com",
+          "yearsOfExperience": 5,
+          "skills": ["Python", "Machine Learning", "SQL"]
+        },
+        "missing": []
+      }
+    }
+  ]
+}

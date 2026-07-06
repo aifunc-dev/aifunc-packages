@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "delay": {
+    "minMs": 30,
+    "maxMs": 100
+  },
+  "random": {
+    "enabled": false,
+    "seed": "sentiment-analysis"
+  },
+  "cases": [
+    {
+      "id": "positive-text",
+      "description": "Positive sentiment text example.",
+      "output": {
+        "label": "positive",
+        "confidence": 0.92,
+        "rankings": [
+          { "label": "positive", "score": 0.92 },
+          { "label": "neutral", "score": 0.05 },
+          { "label": "negative", "score": 0.03 }
+        ]
+      }
+    }
+  ]
+}
