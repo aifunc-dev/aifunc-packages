@@ -11,8 +11,10 @@ class AIFuncConfig:
     api_key: str | None = None
     model: str | None = None
     temperature: float | None = None
+    top_p: float | None = None
     max_tokens: int | None = None
-    timeout: int = 30000
+    timeout: float | None = None
+    max_retries: int | None = None
     mock: bool = False
     mock_data: Any = None
 
@@ -83,6 +85,7 @@ class ModelRequestParams:
     model: str
     messages: list[dict[str, str]]
     temperature: float | None = None
+    top_p: float | None = None
     max_tokens: int | None = None
     response_format: dict[str, str] | None = None
 

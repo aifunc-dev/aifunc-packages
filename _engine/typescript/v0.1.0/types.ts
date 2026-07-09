@@ -6,8 +6,10 @@ export interface AIFuncConfig {
   apiKey?: string;
   model?: string;
   temperature?: number;
+  topP?: number;
   maxTokens?: number;
   timeout?: number;
+  maxRetries?: number;
   mock?: boolean;
   mockData?: MockEntry[] | MockFile;
 }
@@ -83,6 +85,7 @@ export interface ModelParamPreset {
   };
   params: {
     temperature?: number;
+    topP?: number;
     maxTokens?: number;
     structuredOutput?: boolean;
   };
@@ -96,6 +99,7 @@ export interface ModelRequestParams {
     content: string;
   }>;
   temperature?: number;
+  top_p?: number;
   max_tokens?: number;
   response_format?: { type: 'json_object' | 'text' };
 }

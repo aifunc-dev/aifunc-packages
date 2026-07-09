@@ -30,6 +30,11 @@ export function buildRequest(
     params.temperature = temperature;
   }
 
+  const topP = config.topP ?? resolved.topP;
+  if (topP !== undefined) {
+    params.top_p = topP;
+  }
+
   const maxTokens = config.maxTokens ?? resolved.maxTokens ?? artifact.model?.maxTokens;
   if (maxTokens !== undefined) {
     params.max_tokens = maxTokens;
@@ -41,7 +46,7 @@ export function buildRequest(
 function resolveModelParams(
   artifact: AIFuncArtifact,
   model: string
-): { temperature?: number; maxTokens?: number } {
+): { temperature?: number; topP?: number; maxTokens?: number } {
   const rules = artifact.modelParams?.rules;
   if (!rules || rules.length === 0) {
     return {};
@@ -51,6 +56,7 @@ function resolveModelParams(
     if (matchesRule(rule, model)) {
       return {
         temperature: rule.params.temperature,
+        topP: rule.params.topP,
         maxTokens: rule.params.maxTokens,
       };
     }

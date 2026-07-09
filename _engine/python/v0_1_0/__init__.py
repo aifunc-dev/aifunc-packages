@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from .types import AIFuncConfig, AIFuncArtifact, ModelRequestParams, ModelResponse, ValidationResult, MockEntry, JSONSchema
+from .request import ProjectDefaults
 from .runtime import execute
 
 __all__ = [
@@ -12,5 +13,6 @@ __all__ = [
     "ValidationResult",
     "MockEntry",
     "JSONSchema",
+    "ProjectDefaults",
     "execute",
 ]

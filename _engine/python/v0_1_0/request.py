@@ -6,6 +6,7 @@ import json
 import ssl
 import zlib
 import asyncio
+from dataclasses import dataclass
 from urllib.parse import urlparse
 from typing import Any
 from .types import AIFuncConfig, ModelRequestParams, ModelResponse
@@ -14,6 +15,17 @@ _MAX_REDIRECTS = 5
 _MAX_CHUNK_SIZE = 16 * 1024 * 1024
 _MAX_BODY_SIZE = 64 * 1024 * 1024
 _MAX_HEADER_LINE = 16 * 1024
+
+_ENGINE_DEFAULT_TIMEOUT: float = 7.0
+_ENGINE_DEFAULT_MAX_RETRIES: int = 1
+
+
+
+@dataclass
+class ProjectDefaults:
+    """Subset of aifunc.json fields injected at build time by the CLI."""
+    timeout: float | None = None
+    max_retries: int | None = None
 
 
 def _same_origin(url_a: str, url_b: str) -> bool:
@@ -24,7 +36,11 @@ def _same_origin(url_a: str, url_b: str) -> bool:
     return (a.scheme == b.scheme and a.hostname == b.hostname and port_a == port_b)
 
 
-async def send_request(config: AIFuncConfig, params: ModelRequestParams) -> ModelResponse:
+async def send_request(
+    config: AIFuncConfig,
+    params: ModelRequestParams,
+    project_defaults: ProjectDefaults | None = None,
+) -> ModelResponse:
     if not config.base_url:
         raise ValueError("AIFuncConfig.base_url is required when mock mode is disabled")
     if not config.api_key:
@@ -35,7 +51,11 @@ async def send_request(config: AIFuncConfig, params: ModelRequestParams) -> Mode
         url = base
     else:
         url = base + "/chat/completions"
-    timeout_sec = config.timeout / 1000.0
+
+    pd = project_defaults or ProjectDefaults()
+    # Priority: user config > aifunc.json (project_defaults) > engine default
+    timeout_sec: float = config.timeout if config.timeout is not None else (pd.timeout if pd.timeout is not None else _ENGINE_DEFAULT_TIMEOUT)
+    max_retries: int = config.max_retries if config.max_retries is not None else (pd.max_retries if pd.max_retries is not None else _ENGINE_DEFAULT_MAX_RETRIES)
 
     body: dict[str, Any] = {
         "model": params.model,
@@ -45,26 +65,41 @@ async def send_request(config: AIFuncConfig, params: ModelRequestParams) -> Mode
         body["response_format"] = params.response_format
     if params.temperature is not None:
         body["temperature"] = params.temperature
+    if params.top_p is not None:
+        body["top_p"] = params.top_p
     if params.max_tokens is not None:
         body["max_tokens"] = params.max_tokens
 
     data = json.dumps(body).encode("utf-8")
 
-    try:
-        status, response_body = await asyncio.wait_for(
-            _request_with_redirects(url, data, config.api_key),
-            timeout=timeout_sec,
-        )
-    except asyncio.TimeoutError:
-        raise RuntimeError(f"Request timeout after {config.timeout}ms") from None
-    except OSError as e:
-        raise RuntimeError(f"Network error: {e}") from None
+    last_error: Exception = RuntimeError("Unknown error during model request")
+    for attempt in range(max_retries + 1):
+        try:
+            status, response_body = await asyncio.wait_for(
+                _request_with_redirects(url, data, config.api_key),
+                timeout=timeout_sec,
+            )
+        except asyncio.TimeoutError:
+            last_error = RuntimeError(f"Request timeout after {timeout_sec}s")
+            if attempt < max_retries:
+                continue
+            raise last_error from None
+        except Exception as e:
+            last_error = e
+            if attempt < max_retries:
+                continue
+            raise
 
-    if status >= 400:
-        raise RuntimeError(f"Model API returned {status}: {response_body[:500]}")
+        if status >= 400:
+            last_error = RuntimeError(f"Model API returned {status}: {response_body[:500]}")
+            if attempt < max_retries:
+                continue
+            raise last_error
 
-    response_data = json.loads(response_body)
-    return ModelResponse.from_dict(response_data)
+        response_data = json.loads(response_body)
+        return ModelResponse.from_dict(response_data)
+
+    raise last_error
 
 
 async def _request_with_redirects(

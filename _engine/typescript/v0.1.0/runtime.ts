@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AIFuncArtifact, AIFuncConfig, MockEntry } from './types';
+import type { ProjectDefaults } from './request';
 import { validate } from './validator';
 import { renderPrompt } from './prompt';
 import { sendRequest } from './request';
@@ -11,7 +12,8 @@ import { findMockOutput, generateFromSchema } from './mock';
 export async function execute<TOutput = Record<string, unknown>>(
   artifact: AIFuncArtifact,
   input: Record<string, unknown>,
-  config: AIFuncConfig = {}
+  config: AIFuncConfig = {},
+  projectDefaults: ProjectDefaults = {}
 ): Promise<TOutput> {
   const inputValidation = validate(input, artifact.api.input);
   if (!inputValidation.valid) {
@@ -28,7 +30,7 @@ export async function execute<TOutput = Record<string, unknown>>(
 
   const requestParams = buildRequest(artifact, prompt, config);
 
-  const response = await sendRequest(config, requestParams);
+  const response = await sendRequest(config, requestParams, projectDefaults);
 
   const output = parseResponse(response);
 

@@ -29,6 +29,12 @@ def build_request(
     if temperature is not None:
         params.temperature = temperature
 
+    top_p = config.top_p
+    if top_p is None:
+        top_p = resolved.get("topP")
+    if top_p is not None:
+        params.top_p = top_p
+
     max_tokens = config.max_tokens
     if max_tokens is None:
         max_tokens = resolved.get("maxTokens")
@@ -53,6 +59,7 @@ def _resolve_model_params(artifact: AIFuncArtifact, model: str) -> dict[str, Any
             params = rule.get("params", {})
             return {
                 "temperature": params.get("temperature"),
+                "topP": params.get("topP"),
                 "maxTokens": params.get("maxTokens"),
             }
 

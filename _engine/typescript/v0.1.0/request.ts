@@ -3,9 +3,19 @@
 
 import type { ModelRequestParams, ModelResponse, AIFuncConfig } from './types';
 
+const ENGINE_DEFAULT_TIMEOUT = 7000;
+const ENGINE_DEFAULT_MAX_RETRIES = 1;
+
+/** Subset of aifunc.json fields injected at build time by the CLI. */
+export interface ProjectDefaults {
+  timeout?: number;
+  maxRetries?: number;
+}
+
 export async function sendRequest(
   config: AIFuncConfig,
-  params: ModelRequestParams
+  params: ModelRequestParams,
+  projectDefaults: ProjectDefaults = {}
 ): Promise<ModelResponse> {
   if (!config.baseURL) {
     throw new Error('AIFuncConfig.baseURL is required when mock mode is disabled');
@@ -18,8 +28,33 @@ export async function sendRequest(
   const url = base.endsWith('/chat/completions')
     ? base
     : `${base}/chat/completions`;
-  const timeout = config.timeout ?? 30000;
 
+  // Priority: user config > aifunc.json (projectDefaults) > engine default
+  const timeout = config.timeout ?? projectDefaults.timeout ?? ENGINE_DEFAULT_TIMEOUT;
+  const maxRetries = config.maxRetries ?? projectDefaults.maxRetries ?? ENGINE_DEFAULT_MAX_RETRIES;
+
+  let lastError: Error = new Error('Unknown error during model request');
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await _doRequest(url, config.apiKey, params, timeout);
+    } catch (err) {
+      lastError = err instanceof Error ? err : new Error(String(err));
+      if (attempt < maxRetries) {
+        continue;
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+async function _doRequest(
+  url: string,
+  apiKey: string,
+  params: ModelRequestParams,
+  timeout: number
+): Promise<ModelResponse> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -28,7 +63,7 @@ export async function sendRequest(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.apiKey}`,
+        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify(params),
       signal: controller.signal,
@@ -36,9 +71,7 @@ export async function sendRequest(
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(
-        `Model API returned ${response.status}: ${errorText.slice(0, 500)}`
-      );
+      throw new Error(`Model API returned ${response.status}: ${errorText.slice(0, 500)}`);
     }
 
     return await response.json() as ModelResponse;
@@ -49,7 +82,6 @@ export async function sendRequest(
       }
       throw error;
     }
-
     throw new Error('Unknown error during model request');
   } finally {
     clearTimeout(timeoutId);

@@ -5,7 +5,7 @@ from typing import Any
 from .types import AIFuncArtifact, AIFuncConfig, MockEntry
 from .validator import validate
 from .prompt import render_prompt
-from .request import send_request
+from .request import send_request, ProjectDefaults
 from .providers.general import build_request, parse_response
 from .mock import find_mock_output, generate_from_schema
 
@@ -14,6 +14,7 @@ async def execute(
     artifact: AIFuncArtifact,
     input_data: dict[str, Any],
     config: AIFuncConfig | None = None,
+    project_defaults: ProjectDefaults | None = None,
 ) -> dict[str, Any]:
 
     if config is None:
@@ -29,7 +30,7 @@ async def execute(
 
     prompt = render_prompt(artifact, input_data)
     request_params = build_request(artifact, prompt, config)
-    response = await send_request(config, request_params)
+    response = await send_request(config, request_params, project_defaults)
     output = parse_response(response)
 
     output_validation = validate(output, artifact.api["output"])
