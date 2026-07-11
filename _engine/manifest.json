@@ -2,7 +2,8 @@
   "manifestVersion": 1,
   "latest": {
     "typescript": "0.1.0",
-    "python": "0.1.0"
+    "python": "0.1.0",
+    "go": "0.1.0"
   },
   "versions": {
     "0.1.0": {
@@ -20,6 +21,11 @@
         "python": {
           "status": "stable",
           "path": "python/v0_1_0",
+          "integrity": null
+        },
+        "go": {
+          "status": "stable",
+          "path": "go/v0.1.0",
           "integrity": null
         }
       }
