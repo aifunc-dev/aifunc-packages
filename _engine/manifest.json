@@ -3,7 +3,8 @@
   "latest": {
     "typescript": "0.1.0",
     "python": "0.1.0",
-    "go": "0.1.0"
+    "go": "0.1.0",
+    "java": "0.1.0"
   },
   "versions": {
     "0.1.0": {
@@ -26,6 +27,11 @@
         "go": {
           "status": "stable",
           "path": "go/v0.1.0",
+          "integrity": null
+        },
+        "java": {
+          "status": "stable",
+          "path": "java/v0_1_0",
           "integrity": null
         }
       }
