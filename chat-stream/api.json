@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "name": "chat_stream",
+  "description": "Stream a conversational AI reply from a message history. Returns plain text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "messages": {
+        "type": "array",
+        "description": "Conversation history. Each item has a 'role' ('user' or 'assistant') and 'content' (string).",
+        "items": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string",
+              "enum": ["user", "assistant"],
+              "description": "Message sender role."
+            },
+            "content": {
+              "type": "string",
+              "description": "Message text.",
+              "minLength": 1
+            }
+          },
+          "required": ["role", "content"],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "systemPrompt": {
+        "type": "string",
+        "description": "Optional system-level instruction that sets the assistant's persona, role, or constraints."
+      },
+      "language": {
+        "type": "string",
+        "description": "Reply language. If omitted, matches the language of the last user message."
+      }
+    },
+    "required": ["messages"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "string",
+    "description": "The assistant reply as plain text.",
+    "x-delivery-mode": "stream"
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

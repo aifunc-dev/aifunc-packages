@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "write-stream",
+  "displayName": "Write Stream",
+  "description": "Stream long-form writing — articles, reports, or documents — from a prompt and optional structure. Returns plain text.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "writing", "productivity"],
+  "tags": ["writing", "report", "document", "long-form", "streaming"]
+}

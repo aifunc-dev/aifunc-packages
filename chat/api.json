@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "name": "chat",
+  "description": "Send a message and get a plain-text reply. Single-turn, string in, string out.",
+  "input": {
+    "type": "string",
+    "description": "The user message.",
+    "minLength": 1
+  },
+  "output": {
+    "type": "string",
+    "description": "The assistant reply as plain text."
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

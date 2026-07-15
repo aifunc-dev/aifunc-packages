@@ -4,7 +4,7 @@
   "displayName": "Generate Post",
   "description": "Generate a social media post or short article from a topic or brief.",
   "version": "1.0.0",
-  "engine": "^0.1.0",
+  "engine": "^0.2.0",
   "author": {
     "name": "GildenEye"
   },

@@ -4,7 +4,7 @@
   "displayName": "SEO Slug Generator",
   "description": "Generate SEO-friendly URL slugs, meta descriptions, and tag suggestions from titles.",
   "version": "1.0.0",
-  "engine": "^0.1.0",
+  "engine": "^0.2.0",
   "author": {
     "name": "GildenEye"
   },

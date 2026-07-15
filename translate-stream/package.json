@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "translate-stream",
+  "displayName": "Translate Stream",
+  "description": "Stream the translation of a long document or text. Returns plain text.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "translation", "productivity"],
+  "tags": ["translate", "translation", "long-form", "streaming", "multilingual"]
+}

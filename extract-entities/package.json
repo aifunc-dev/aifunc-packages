@@ -4,7 +4,7 @@
   "displayName": "Entity Extraction",
   "description": "Extract named entities (people, places, organizations, dates, etc.) from text.",
   "version": "1.0.0",
-  "engine": "^0.1.0",
+  "engine": "^0.2.0",
   "author": {
     "name": "GildenEye"
   },

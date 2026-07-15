@@ -4,7 +4,7 @@
   "displayName": "Sentiment Analysis",
   "description": "Analyze the sentiment of input text with customizable labels (zero-shot classification).",
   "version": "1.0.0",
-  "engine": "^0.1.0",
+  "engine": "^0.2.0",
   "author": {
     "name": "GildenEye"
   },

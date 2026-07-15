@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "answer-stream",
+  "displayName": "Answer Stream",
+  "description": "Stream a detailed answer to a question, optionally grounded in provided context for RAG use cases. Returns plain text.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "qa", "productivity"],
+  "tags": ["qa", "answer", "rag", "grounded", "streaming", "knowledge-base"]
+}

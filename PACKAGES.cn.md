@@ -26,8 +26,18 @@ aifunc-packages
 │   ├── generate-title       生成标题候选
 │   └── answer-question      问答（基于上下文或通用知识）
 │
-└── 语义理解
-    └── recognize-intent     用户意图识别
+├── 语义理解
+│   ├── chat                 通用对话
+│   └── recognize-intent     用户意图识别
+│
+└── 流式输出
+    ├── chat-stream          通用流式对话
+    ├── answer-stream        详细问答，支持 RAG
+    ├── explain-stream       解释概念、代码或术语
+    ├── article-stream       根据标题/大纲生成完整文章
+    ├── write-stream         长文写作：文章、报告、文档
+    ├── translate-stream     长文档翻译
+    └── review-stream        代码/文档审查，逐条输出意见
 ```
 
 ## 目录
@@ -48,7 +58,15 @@ aifunc-packages
 - [generate-email](#generate-email)
 - [generate-title](#generate-title)
 - [answer-question](#answer-question)
+- [chat](#chat)
 - [recognize-intent](#recognize-intent)
+- [chat-stream](#chat-stream)
+- [answer-stream](#answer-stream)
+- [explain-stream](#explain-stream)
+- [article-stream](#article-stream)
+- [write-stream](#write-stream)
+- [translate-stream](#translate-stream)
+- [review-stream](#review-stream)
 
 ## 命名规则
 
@@ -72,7 +90,17 @@ aifunc-packages
 | `generate-email` | `generate_email()` | `generateEmail()` |
 | `generate-title` | `generate_title()` | `generateTitle()` |
 | `answer-question` | `answer_question()` | `answerQuestion()` |
+| `chat` | `chat()` | `chat()` |
 | `recognize-intent` | `recognize_intent()` | `recognizeIntent()` |
+| `chat-stream` | `chat_stream()` | `chatStream()` |
+| `answer-stream` | `answer_stream()` | `answerStream()` |
+| `explain-stream` | `explain_stream()` | `explainStream()` |
+| `article-stream` | `article_stream()` | `articleStream()` |
+| `write-stream` | `write_stream()` | `writeStream()` |
+| `translate-stream` | `translate_stream()` | `translateStream()` |
+| `review-stream` | `review_stream()` | `reviewStream()` |
+
+流式包返回 `AsyncIterable<string>`（TypeScript）或异步生成器（Python）。
 
 ---
 
@@ -435,6 +463,24 @@ aifunc-packages
 
 ---
 
+## chat
+
+发送一条消息并返回纯文本回复。最简接口：string 输入，string 输出。
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+|（string）| string | 是 | 用户消息。 |
+
+**输出：**
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+|（string）| string | 助手回复的纯文本。 |
+
+---
+
 ## recognize-intent
 
 从对话文本中识别用户意图，附带置信度分数。
@@ -456,3 +502,160 @@ aifunc-packages
 | `rankings` | array | 所有意图按置信度从高到低排序。 |
 | `rankings[].intent` | string | 意图标签。 |
 | `rankings[].confidence` | number | 置信度分数（0-1）。 |
+
+---
+
+## chat-stream
+
+从消息历史流式生成对话回复，逐 token 输出纯文本。
+
+**输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `messages` | array | 是 | 对话历史。每项包含 `role`（`"user"` 或 `"assistant"`）和 `content`（string）。至少 1 条。 |
+| `systemPrompt` | string | 否 | 系统级指令，设定助手的角色、人设或约束。 |
+| `language` | string | 否 | 回复语言。省略时匹配最后一条用户消息的语言。 |
+
+**输出：**
+
+纯文本流，每次 yield 的 chunk 为字符串 token 片段。
+
+---
+
+## answer-stream
+
+流式输出问题的详细回答，支持基于上下文的 RAG 场景，逐 token 输出纯文本。
+
+**输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `question` | string | 是 | 要回答的问题。 |
+| `context` | string | 否 | 源文本、文档或检索段落，用于基于上下文回答。提供后回答严格基于此内容。 |
+| `depth` | string | 否 | 回答深度：`"concise"`（1-2 段）或 `"detailed"`（详细含示例）。默认：`"detailed"`。 |
+| `audience` | string | 否 | 目标受众：`"general"`、`"technical"`、`"expert"`。默认：`"general"`。 |
+| `language` | string | 否 | 回答语言。省略时匹配问题语言。 |
+
+**输出：**
+
+纯文本流，每次 yield 的 chunk 为字符串 token 片段。
+
+---
+
+## explain-stream
+
+流式输出对概念、代码片段或术语的清晰解释，逐 token 输出纯文本。
+
+**输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `topic` | string | 是 | 要解释的概念、代码片段或术语。 |
+| `context` | string | 否 | 周围上下文（如所属文件、领域）。 |
+| `audience` | string | 否 | 目标受众级别：`"beginner"`、`"intermediate"`、`"expert"`、`"non-technical"`。默认：`"intermediate"`。 |
+| `depth` | string | 否 | 解释深度：`"brief"`（2-3 句）、`"standard"`（1-2 段）、`"detailed"`（完整说明含示例）。默认：`"standard"`。 |
+| `language` | string | 否 | 输出语言。省略时匹配 topic 的语言。 |
+
+**输出：**
+
+纯文本流，每次 yield 的 chunk 为字符串 token 片段。
+
+---
+
+## article-stream
+
+根据标题和可选大纲流式生成完整文章，逐 token 输出纯文本。
+
+**输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `title` | string | 是 | 文章标题。 |
+| `outline` | string | 否 | 可选大纲或要覆盖的要点。 |
+| `style` | string | 否 | 写作风格：`"informational"`、`"opinion"`、`"tutorial"`、`"news"`。默认：`"informational"`。 |
+| `audience` | string | 否 | 目标受众（如 `"general readers"`、`"developers"`、`"executives"`）。默认：`"general readers"`。 |
+| `language` | string | 否 | 输出语言。省略时匹配标题语言。 |
+| `wordCount` | integer | 否 | 大致目标字数。默认：600。范围：200-3000。 |
+
+**输出：**
+
+纯文本流，每次 yield 的 chunk 为字符串 token 片段。
+
+---
+
+## write-stream
+
+根据提示词和可选结构流式生成长文档，逐 token 输出纯文本。
+
+**输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `prompt` | string | 是 | 写作要求，可以是标题、简述、需求说明或完整描述。 |
+| `format` | string | 否 | 文档格式：`"article"`、`"report"`、`"proposal"`、`"documentation"`、`"essay"`。默认：`"article"`。 |
+| `structure` | string | 否 | 可选大纲、章节标题或结构说明。 |
+| `tone` | string | 否 | 写作语气（如 `"formal"`、`"professional"`、`"academic"`、`"casual"`）。默认：`"professional"`。 |
+| `audience` | string | 否 | 目标受众（如 `"executives"`、`"engineers"`、`"general public"`）。默认：`"general readers"`。 |
+| `language` | string | 否 | 输出语言。省略时匹配 prompt 的语言。 |
+| `wordCount` | integer | 否 | 大致目标字数。默认：800。范围：300-5000。 |
+
+**输出：**
+
+纯文本流，每次 yield 的 chunk 为字符串 token 片段。
+
+---
+
+## translate-stream
+
+流式翻译长文档或文本，逐 token 输出纯文本。
+
+**输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `text` | string | 是 | 要翻译的文本或文档。 |
+| `targetLang` | string | 是 | 目标语言（如 `"Chinese"`、`"English"`、`"French"`、`"zh-CN"`）。 |
+| `sourceLang` | string | 否 | 源语言。省略时自动检测。 |
+| `style` | string | 否 | 翻译风格：`"literal"`（忠实原文）、`"natural"`（地道流畅）、`"formal"`（正式）。默认：`"natural"`。 |
+| `domain` | string | 否 | 领域提示，用于提升术语准确性（如 `"legal"`、`"medical"`、`"technical"`、`"literary"`）。 |
+
+**输出：**
+
+纯文本流，每次 yield 的 chunk 为字符串 token 片段。
+
+---
+
+## review-stream
+
+流式输出代码或文档的审查意见，逐条展示，逐 token 输出纯文本。
+
+**输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
+
+**输入：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `content` | string | 是 | 要审查的代码或文档文本。 |
+| `type` | string | 否 | 内容类型：`"code"`、`"document"`、`"pull-request"`、`"essay"`。默认：`"code"`。 |
+| `language` | string | 否 | 编程语言（当 `type` 为 `"code"` 时，如 `"TypeScript"`、`"Python"`、`"Go"`）。 |
+| `focus` | string | 否 | 审查重点（如 `"correctness, security"`、`"style, clarity"`）。省略时覆盖所有维度。 |
+| `context` | string | 否 | 关于代码库、项目或目的的上下文信息。 |
+| `severity` | string | 否 | 最低报告严重级别：`"all"`、`"suggestions-and-above"`、`"warnings-and-above"`、`"errors-only"`。默认：`"all"`。 |
+| `outputLanguage` | string | 否 | 审查意见的输出语言。省略时默认使用英文。 |
+
+**输出：**
+
+纯文本流，以编号列表形式逐条输出审查意见，每条含严重级别、位置、问题说明和改进建议。末尾附总体评价。

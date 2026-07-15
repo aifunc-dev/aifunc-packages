@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "explain-stream",
+  "displayName": "Explain Stream",
+  "description": "Stream a clear explanation of a concept, code snippet, or term. Returns plain text.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "education", "productivity"],
+  "tags": ["explain", "concept", "code", "tutorial", "streaming"]
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "0.1.0",
+  "rules": [
+    {
+      "match": { "pattern": ".*" },
+      "params": { "temperature": 0.7, "maxTokens": 1024 }
+    }
+  ]
+}

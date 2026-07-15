@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "name": "article_stream",
+  "description": "Stream a full article from a title and optional outline. Returns plain text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "The article title.",
+        "minLength": 1
+      },
+      "outline": {
+        "type": "string",
+        "description": "Optional outline or key points to cover, one per line or as free text."
+      },
+      "style": {
+        "type": "string",
+        "description": "Writing style or tone (e.g. 'informational', 'opinion', 'tutorial', 'news'). Default: 'informational'.",
+        "default": "informational"
+      },
+      "audience": {
+        "type": "string",
+        "description": "Target audience (e.g. 'general readers', 'developers', 'executives'). Default: 'general readers'.",
+        "default": "general readers"
+      },
+      "language": {
+        "type": "string",
+        "description": "Output language (e.g. 'English', 'Chinese'). If omitted, matches the title language."
+      },
+      "wordCount": {
+        "type": "integer",
+        "description": "Approximate target word count. Default: 600. Range: 200–3000.",
+        "minimum": 200,
+        "maximum": 3000,
+        "default": 600
+      }
+    },
+    "required": ["title"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "string",
+    "description": "The generated article as plain text.",
+    "x-delivery-mode": "stream"
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

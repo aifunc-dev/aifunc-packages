@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "name": "write_stream",
+  "description": "Stream long-form writing — articles, reports, or documents — from a prompt and optional structure. Returns plain text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "prompt": {
+        "type": "string",
+        "description": "What to write. Can be a title, a brief, a set of requirements, or a full description of the desired content.",
+        "minLength": 1
+      },
+      "format": {
+        "type": "string",
+        "description": "Document format: 'article', 'report', 'proposal', 'documentation', 'essay'. Default: 'article'.",
+        "enum": ["article", "report", "proposal", "documentation", "essay"],
+        "default": "article"
+      },
+      "structure": {
+        "type": "string",
+        "description": "Optional outline, section headings, or structural notes to follow."
+      },
+      "tone": {
+        "type": "string",
+        "description": "Writing tone (e.g. 'formal', 'professional', 'academic', 'casual'). Default: 'professional'.",
+        "default": "professional"
+      },
+      "audience": {
+        "type": "string",
+        "description": "Target audience (e.g. 'executives', 'engineers', 'general public'). Default: 'general readers'.",
+        "default": "general readers"
+      },
+      "language": {
+        "type": "string",
+        "description": "Output language. If omitted, matches the language of the prompt."
+      },
+      "wordCount": {
+        "type": "integer",
+        "description": "Approximate target word count. Default: 800. Range: 300–5000.",
+        "minimum": 300,
+        "maximum": 5000,
+        "default": 800
+      }
+    },
+    "required": ["prompt"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "string",
+    "description": "The generated document as plain text.",
+    "x-delivery-mode": "stream"
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "chat-stream",
+  "displayName": "Chat Stream",
+  "description": "Stream a conversational AI reply from a message history. Returns plain text.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "chat", "productivity"],
+  "tags": ["chat", "conversation", "dialogue", "streaming", "assistant"]
+}

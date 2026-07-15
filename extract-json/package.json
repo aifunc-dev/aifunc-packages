@@ -4,7 +4,7 @@
   "displayName": "Structured JSON Extraction",
   "description": "Extract structured JSON data from natural language text based on a user-defined field schema.",
   "version": "1.0.0",
-  "engine": "^0.1.0",
+  "engine": "^0.2.0",
   "author": {
     "name": "GildenEye"
   },

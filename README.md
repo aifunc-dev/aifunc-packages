@@ -1,4 +1,4 @@
-# AIFunc Packages
+﻿# AIFunc Packages
 
 Official package registry for [AIFunc](https://github.com/aifunc-dev/aifunc). Install any package with one command and get a typed, testable AI function in your project.
 
@@ -41,6 +41,7 @@ The CLI detects your project language (TypeScript/Python) and generates fully ty
 
 | Package | Description | Install |
 |:---|:---|:---|
+| `chat` | Single-turn chat, string in, string out | `aifn install github:aifunc-dev/aifunc-packages/chat` |
 | `generate-reply` | Contextual reply generation | `aifn install github:aifunc-dev/aifunc-packages/generate-reply` |
 | `generate-post` | Social media post generation | `aifn install github:aifunc-dev/aifunc-packages/generate-post` |
 | `generate-email` | Email generation from intent | `aifn install github:aifunc-dev/aifunc-packages/generate-email` |
@@ -52,6 +53,18 @@ The CLI detects your project language (TypeScript/Python) and generates fully ty
 | Package | Description | Install |
 |:---|:---|:---|
 | `recognize-intent` | User intent recognition | `aifn install github:aifunc-dev/aifunc-packages/recognize-intent` |
+
+### Streaming
+
+| Package | Description | Install |
+|:---|:---|:---|
+| `chat-stream` | General-purpose conversational chat | `aifn install github:aifunc-dev/aifunc-packages/chat-stream` |
+| `answer-stream` | Detailed question answering, RAG-ready | `aifn install github:aifunc-dev/aifunc-packages/answer-stream` |
+| `explain-stream` | Explain a concept, code, or term | `aifn install github:aifunc-dev/aifunc-packages/explain-stream` |
+| `article-stream` | Full article from a title and outline | `aifn install github:aifunc-dev/aifunc-packages/article-stream` |
+| `write-stream` | Long-form writing: articles, reports, docs | `aifn install github:aifunc-dev/aifunc-packages/write-stream` |
+| `translate-stream` | Long document translation | `aifn install github:aifunc-dev/aifunc-packages/translate-stream` |
+| `review-stream` | Code and document review with findings | `aifn install github:aifunc-dev/aifunc-packages/review-stream` |
 
 ## Usage
 
@@ -81,6 +94,40 @@ async def main():
     result = await summarize(config, SummarizeInput(text="Your text here...", max_length=30))
     print(result.summary)
     print(result.word_count)
+
+asyncio.run(main())
+```
+
+Streaming packages return an `AsyncIterable<string>` (TypeScript) or async generator (Python). Consume tokens as they arrive:
+
+```typescript
+import { chatStream, AIFuncConfig, ChatStreamInput } from './aifunc/chat-stream';
+
+const config: AIFuncConfig = { baseURL: '...', model: '...', apiKey: '...' };
+
+async function main() {
+  const input: ChatStreamInput = {
+    messages: [{ role: 'user', content: 'Explain async/await in JavaScript.' }],
+  };
+  for await (const token of await chatStream(config, input)) {
+    process.stdout.write(token);
+  }
+}
+
+main().catch(console.error);
+```
+
+```python
+import asyncio, sys
+from aifunc.chat_stream import chat_stream, AIFuncConfig, ChatStreamInput
+
+config = AIFuncConfig(base_url="...", model="...", api_key="...")
+
+async def main():
+    input = ChatStreamInput(messages=[{"role": "user", "content": "Explain async/await in JavaScript."}])
+    async for token in await chat_stream(config, input):
+        sys.stdout.write(token)
+        sys.stdout.flush()
 
 asyncio.run(main())
 ```

@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "review-stream",
+  "displayName": "Review Stream",
+  "description": "Stream a structured review of code or a document, with issues and suggestions delivered incrementally. Returns plain text.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "code", "productivity"],
+  "tags": ["review", "code-review", "feedback", "streaming", "quality"]
+}

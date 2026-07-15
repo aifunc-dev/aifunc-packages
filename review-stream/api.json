@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "name": "review_stream",
+  "description": "Stream a structured review of code or a document, with issues and suggestions delivered incrementally. Returns plain text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "content": {
+        "type": "string",
+        "description": "The code or document text to review.",
+        "minLength": 1
+      },
+      "type": {
+        "type": "string",
+        "description": "Content type: 'code', 'document', 'pull-request', 'essay'. Default: 'code'.",
+        "enum": ["code", "document", "pull-request", "essay"],
+        "default": "code"
+      },
+      "language": {
+        "type": "string",
+        "description": "Programming language (when type is 'code', e.g. 'TypeScript', 'Python', 'Go'). Ignored for non-code types."
+      },
+      "focus": {
+        "type": "string",
+        "description": "Review focus areas (e.g. 'correctness, security', 'style, clarity', 'performance'). If omitted, covers all areas."
+      },
+      "context": {
+        "type": "string",
+        "description": "Optional context about the codebase, project, or purpose to inform the review."
+      },
+      "severity": {
+        "type": "string",
+        "description": "Minimum severity level to report: 'all', 'suggestions-and-above', 'warnings-and-above', 'errors-only'. Default: 'all'.",
+        "enum": ["all", "suggestions-and-above", "warnings-and-above", "errors-only"],
+        "default": "all"
+      },
+      "outputLanguage": {
+        "type": "string",
+        "description": "Language for the review output. If omitted, matches the language of the content or defaults to English."
+      }
+    },
+    "required": ["content"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "string",
+    "description": "The review findings as plain text, delivered incrementally.",
+    "x-delivery-mode": "stream"
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

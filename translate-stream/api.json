@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "translate_stream",
+  "description": "Stream the translation of a long document or text. Returns plain text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text or document to translate.",
+        "minLength": 1
+      },
+      "targetLang": {
+        "type": "string",
+        "description": "Target language (e.g. 'Chinese', 'English', 'French', 'zh-CN').",
+        "minLength": 1
+      },
+      "sourceLang": {
+        "type": "string",
+        "description": "Source language. If omitted, it is auto-detected."
+      },
+      "style": {
+        "type": "string",
+        "description": "Translation style: 'literal' (close to source), 'natural' (idiomatic), 'formal'. Default: 'natural'.",
+        "enum": ["literal", "natural", "formal"],
+        "default": "natural"
+      },
+      "domain": {
+        "type": "string",
+        "description": "Subject domain hint to improve terminology accuracy (e.g. 'legal', 'medical', 'technical', 'literary'). Optional."
+      }
+    },
+    "required": ["text", "targetLang"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "string",
+    "description": "The translated text as plain text.",
+    "x-delivery-mode": "stream"
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

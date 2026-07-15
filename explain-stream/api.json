@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "explain_stream",
+  "description": "Stream a clear explanation of a concept, code snippet, or term. Returns plain text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "topic": {
+        "type": "string",
+        "description": "The concept, code snippet, or term to explain.",
+        "minLength": 1
+      },
+      "context": {
+        "type": "string",
+        "description": "Optional surrounding context (e.g. the file or system the code belongs to, or the domain the term is used in)."
+      },
+      "audience": {
+        "type": "string",
+        "description": "Target audience level (e.g. 'beginner', 'intermediate', 'expert', 'non-technical'). Default: 'intermediate'.",
+        "default": "intermediate"
+      },
+      "depth": {
+        "type": "string",
+        "description": "Explanation depth: 'brief' (2-3 sentences), 'standard' (1-2 paragraphs), 'detailed' (full breakdown with examples). Default: 'standard'.",
+        "enum": ["brief", "standard", "detailed"],
+        "default": "standard"
+      },
+      "language": {
+        "type": "string",
+        "description": "Output language. If omitted, matches the language of the topic."
+      }
+    },
+    "required": ["topic"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "string",
+    "description": "The explanation as plain text.",
+    "x-delivery-mode": "stream"
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

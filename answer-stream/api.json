@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "answer_stream",
+  "description": "Stream a detailed answer to a question, optionally grounded in provided context for RAG use cases. Returns plain text.",
+  "input": {
+    "type": "object",
+    "properties": {
+      "question": {
+        "type": "string",
+        "description": "The question to answer.",
+        "minLength": 1
+      },
+      "context": {
+        "type": "string",
+        "description": "Optional source text, documents, or retrieved passages to ground the answer in. If provided, the answer must be based on this context."
+      },
+      "depth": {
+        "type": "string",
+        "description": "Answer depth: 'concise' (1-2 paragraphs), 'detailed' (thorough explanation with examples). Default: 'detailed'.",
+        "enum": ["concise", "detailed"],
+        "default": "detailed"
+      },
+      "audience": {
+        "type": "string",
+        "description": "Target audience (e.g. 'general', 'technical', 'expert'). Default: 'general'.",
+        "default": "general"
+      },
+      "language": {
+        "type": "string",
+        "description": "Answer language. If omitted, matches the language of the question."
+      }
+    },
+    "required": ["question"],
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "string",
+    "description": "The answer as plain text.",
+    "x-delivery-mode": "stream"
+  },
+  "errors": [
+    { "code": "INVALID_INPUT", "message": "Input does not conform to the schema." },
+    { "code": "MODEL_UNAVAILABLE", "message": "Model is unavailable." },
+    { "code": "TIMEOUT", "message": "Request timed out." }
+  ]
+}

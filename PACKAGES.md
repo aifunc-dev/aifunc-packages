@@ -26,8 +26,18 @@ aifunc-packages
 │   ├── generate-title       Title candidate generation
 │   └── answer-question      Question answering (grounded or general)
 │
-└── Understanding
-    └── recognize-intent     User intent recognition
+├── Understanding
+│   ├── chat                 General-purpose conversational chat
+│   └── recognize-intent     User intent recognition
+│
+└── Streaming
+    ├── chat-stream          General-purpose conversational chat
+    ├── answer-stream        Detailed question answering, RAG-ready
+    ├── explain-stream       Explain a concept, code, or term
+    ├── article-stream       Full article from a title and outline
+    ├── write-stream         Long-form writing: articles, reports, docs
+    ├── translate-stream     Long document translation
+    └── review-stream        Code and document review with findings
 ```
 
 ## Table of Contents
@@ -48,10 +58,19 @@ aifunc-packages
 - [generate-email](#generate-email)
 - [generate-title](#generate-title)
 - [answer-question](#answer-question)
+- [chat](#chat)
+- [recognize-intent](#recognize-intent)
+- [chat-stream](#chat-stream)
+- [answer-stream](#answer-stream)
+- [explain-stream](#explain-stream)
+- [article-stream](#article-stream)
+- [write-stream](#write-stream)
+- [translate-stream](#translate-stream)
+- [review-stream](#review-stream)
 
 ## Naming Convention
 
-Package names (kebab-case) are automatically converted to each language's idiomatic function name:
+Package names (kebab-case) are automatically converted to each language idiomatic function name:
 
 | Package | Python | TypeScript |
 |---------|--------|------------|
@@ -71,7 +90,17 @@ Package names (kebab-case) are automatically converted to each language's idioma
 | `generate-email` | `generate_email()` | `generateEmail()` |
 | `generate-title` | `generate_title()` | `generateTitle()` |
 | `answer-question` | `answer_question()` | `answerQuestion()` |
+| `chat` | `chat()` | `chat()` |
 | `recognize-intent` | `recognize_intent()` | `recognizeIntent()` |
+| `chat-stream` | `chat_stream()` | `chatStream()` |
+| `answer-stream` | `answer_stream()` | `answerStream()` |
+| `explain-stream` | `explain_stream()` | `explainStream()` |
+| `article-stream` | `article_stream()` | `articleStream()` |
+| `write-stream` | `write_stream()` | `writeStream()` |
+| `translate-stream` | `translate_stream()` | `translateStream()` |
+| `review-stream` | `review_stream()` | `reviewStream()` |
+
+Streaming packages return `AsyncIterable<string>` (TypeScript) or an async generator (Python).
 
 ---
 
@@ -374,10 +403,10 @@ Generates a complete email from a short description of intent and context.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `intent` | string | Yes | The email's purpose (e.g. `"follow up on a job application"`, `"request a refund"`). |
+| `intent` | string | Yes | The email purpose (e.g. `"follow up on a job application"`, `"request a refund"`). |
 | `tone` | string | No | Desired tone: `"formal"`, `"friendly"`, `"assertive"`. Default: `"formal"`. |
-| `senderName` | string | No | Sender's name, used in the sign-off. |
-| `recipientName` | string | No | Recipient's name or role, used in the salutation. |
+| `senderName` | string | No | Sender name, used in the sign-off. |
+| `recipientName` | string | No | Recipient name or role, used in the salutation. |
 | `keyPoints` | string[] | No | Specific points or details to include in the email body. |
 | `language` | string | No | Email language. Default: `"English"`. |
 
@@ -431,3 +460,202 @@ Answers a question based on provided context or general knowledge.
 | `answer` | string | The generated answer. |
 | `grounded` | boolean | `true` if based on provided context, `false` if based on general knowledge. |
 | `confidence` | number | Confidence score (0-1). |
+
+---
+
+## chat
+
+Sends a single message and returns a plain-text reply. Simplest possible interface: string in, string out.
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| (string) | string | Yes | The user message. |
+
+**Output:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| (string) | string | The assistant reply as plain text. |
+
+---
+
+## recognize-intent
+
+Recognizes user intent from conversational text, with confidence scores.
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `text` | string | Yes | The user message to recognize intent from. |
+| `intents` | string[] | Yes | List of candidate intents (at least 2). |
+| `context` | string | No | Conversation context or system description to improve accuracy. |
+
+**Output:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `intent` | string | The highest-confidence intent. |
+| `confidence` | number | Confidence score for the top intent (0-1). |
+| `rankings` | array | All intents ranked by confidence (highest first). |
+| `rankings[].intent` | string | Intent label. |
+| `rankings[].confidence` | number | Confidence score (0-1). |
+
+---
+
+## chat-stream
+
+Streams a conversational AI reply from a message history. Returns plain text token by token.
+
+**Output mode:** streaming (`AsyncIterable<string>` / async generator)
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `messages` | array | Yes | Conversation history. Each item has `role` (`"user"` or `"assistant"`) and `content` (string). Minimum 1 item. |
+| `systemPrompt` | string | No | System-level instruction that sets the assistant persona, role, or constraints. |
+| `language` | string | No | Reply language. If omitted, matches the language of the last user message. |
+
+**Output:**
+
+Plain text stream. Each yielded chunk is a string token fragment.
+
+---
+
+## answer-stream
+
+Streams a detailed answer to a question, optionally grounded in provided context for RAG use cases. Returns plain text token by token.
+
+**Output mode:** streaming (`AsyncIterable<string>` / async generator)
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `question` | string | Yes | The question to answer. |
+| `context` | string | No | Source text, documents, or retrieved passages to ground the answer in. If provided, the answer is based strictly on this context. |
+| `depth` | string | No | Answer depth: `"concise"` (1-2 paragraphs) or `"detailed"` (thorough with examples). Default: `"detailed"`. |
+| `audience` | string | No | Target audience: `"general"`, `"technical"`, `"expert"`. Default: `"general"`. |
+| `language` | string | No | Answer language. If omitted, matches the question language. |
+
+**Output:**
+
+Plain text stream. Each yielded chunk is a string token fragment.
+
+---
+
+## explain-stream
+
+Streams a clear explanation of a concept, code snippet, or term. Returns plain text token by token.
+
+**Output mode:** streaming (`AsyncIterable<string>` / async generator)
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `topic` | string | Yes | The concept, code snippet, or term to explain. |
+| `context` | string | No | Surrounding context (e.g. the file or domain the topic belongs to). |
+| `audience` | string | No | Target audience level: `"beginner"`, `"intermediate"`, `"expert"`, `"non-technical"`. Default: `"intermediate"`. |
+| `depth` | string | No | Explanation depth: `"brief"` (2-3 sentences), `"standard"` (1-2 paragraphs), `"detailed"` (full breakdown with examples). Default: `"standard"`. |
+| `language` | string | No | Output language. If omitted, matches the language of the topic. |
+
+**Output:**
+
+Plain text stream. Each yielded chunk is a string token fragment.
+
+---
+
+## article-stream
+
+Streams a full article from a title and optional outline. Returns plain text token by token.
+
+**Output mode:** streaming (`AsyncIterable<string>` / async generator)
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `title` | string | Yes | The article title. |
+| `outline` | string | No | Optional outline or key points to cover. |
+| `style` | string | No | Writing style: `"informational"`, `"opinion"`, `"tutorial"`, `"news"`. Default: `"informational"`. |
+| `audience` | string | No | Target audience (e.g. `"general readers"`, `"developers"`, `"executives"`). Default: `"general readers"`. |
+| `language` | string | No | Output language. If omitted, matches the title language. |
+| `wordCount` | integer | No | Approximate target word count. Default: 600. Range: 200-3000. |
+
+**Output:**
+
+Plain text stream. Each yielded chunk is a string token fragment.
+
+---
+
+## write-stream
+
+Streams long-form writing from a prompt and optional structure. Returns plain text token by token.
+
+**Output mode:** streaming (`AsyncIterable<string>` / async generator)
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `prompt` | string | Yes | What to write. Can be a title, brief, requirements, or a full description. |
+| `format` | string | No | Document format: `"article"`, `"report"`, `"proposal"`, `"documentation"`, `"essay"`. Default: `"article"`. |
+| `structure` | string | No | Optional outline, section headings, or structural notes. |
+| `tone` | string | No | Writing tone (e.g. `"formal"`, `"professional"`, `"academic"`, `"casual"`). Default: `"professional"`. |
+| `audience` | string | No | Target audience (e.g. `"executives"`, `"engineers"`, `"general public"`). Default: `"general readers"`. |
+| `language` | string | No | Output language. If omitted, matches the language of the prompt. |
+| `wordCount` | integer | No | Approximate target word count. Default: 800. Range: 300-5000. |
+
+**Output:**
+
+Plain text stream. Each yielded chunk is a string token fragment.
+
+---
+
+## translate-stream
+
+Streams the translation of a long document or text. Returns plain text token by token.
+
+**Output mode:** streaming (`AsyncIterable<string>` / async generator)
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `text` | string | Yes | The text or document to translate. |
+| `targetLang` | string | Yes | Target language (e.g. `"Chinese"`, `"English"`, `"French"`, `"zh-CN"`). |
+| `sourceLang` | string | No | Source language. If omitted, it is auto-detected. |
+| `style` | string | No | Translation style: `"literal"`, `"natural"`, `"formal"`. Default: `"natural"`. |
+| `domain` | string | No | Subject domain hint for terminology accuracy (e.g. `"legal"`, `"medical"`, `"technical"`, `"literary"`). |
+
+**Output:**
+
+Plain text stream. Each yielded chunk is a string token fragment.
+
+---
+
+## review-stream
+
+Streams a structured review of code or a document, delivering findings incrementally. Returns plain text token by token.
+
+**Output mode:** streaming (`AsyncIterable<string>` / async generator)
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `content` | string | Yes | The code or document text to review. |
+| `type` | string | No | Content type: `"code"`, `"document"`, `"pull-request"`, `"essay"`. Default: `"code"`. |
+| `language` | string | No | Programming language when `type` is `"code"` (e.g. `"TypeScript"`, `"Python"`, `"Go"`). |
+| `focus` | string | No | Review focus areas (e.g. `"correctness, security"`, `"style, clarity"`). If omitted, covers all areas. |
+| `context` | string | No | Context about the codebase, project, or purpose to inform the review. |
+| `severity` | string | No | Minimum severity to report: `"all"`, `"suggestions-and-above"`, `"warnings-and-above"`, `"errors-only"`. Default: `"all"`. |
+| `outputLanguage` | string | No | Language for the review output. If omitted, defaults to English. |
+
+**Output:**
+
+Plain text stream. Findings are delivered as a numbered list, each with severity, location, issue, and recommendation. Ends with an overall summary.

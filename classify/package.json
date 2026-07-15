@@ -4,7 +4,7 @@
   "displayName": "Text Classification",
   "description": "Classify text into user-defined categories with confidence scores (zero-shot).",
   "version": "1.0.0",
-  "engine": "^0.1.0",
+  "engine": "^0.2.0",
   "author": {
     "name": "GildenEye"
   },

@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "article-stream",
+  "displayName": "Article Stream",
+  "description": "Stream a full article from a title and optional outline. Returns plain text.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "writing", "content"],
+  "tags": ["article", "blog", "writing", "streaming", "long-form"]
+}

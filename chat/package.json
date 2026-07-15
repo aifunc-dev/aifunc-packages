@@ -1,0 +1,17 @@
+{
+  "type": "standalone",
+  "name": "chat",
+  "displayName": "Chat",
+  "description": "Send a message and get a plain-text reply. Single-turn, string in, string out.",
+  "version": "1.0.0",
+  "engine": "^0.2.0",
+  "engineOptions": {
+    "injectOutputSchema": false
+  },
+  "author": {
+    "name": "GildenEye"
+  },
+  "license": "MIT",
+  "categories": ["text", "chat", "productivity"],
+  "tags": ["chat", "reply", "assistant", "single-turn"]
+}
