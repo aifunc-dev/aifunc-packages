@@ -1,15 +1,49 @@
 {
   "manifestVersion": 1,
   "latest": {
-    "typescript": "0.1.0",
-    "python": "0.1.0",
-    "go": "0.1.0",
-    "java": "0.1.0",
-    "csharp": "0.1.0"
+    "typescript": "0.2.0",
+    "python": "0.2.0",
+    "go": "0.2.0",
+    "java": "0.2.0",
+    "csharp": "0.2.0"
   },
   "versions": {
+    "0.2.0": {
+      "releaseDate": "2026-07-13",
+      "minCliVersion": "0.1.0",
+      "packageSchemaVersion": "0.1.0",
+      "deprecated": false,
+      "changelog": "Add streaming support (TypeScript + Python + Go + Java + C#)",
+      "languages": {
+        "typescript": {
+          "status": "stable",
+          "path": "typescript/v0.2.0",
+          "integrity": null
+        },
+        "python": {
+          "status": "stable",
+          "path": "python/v0_2_0",
+          "integrity": null
+        },
+        "go": {
+          "status": "stable",
+          "path": "go/v0.2.0",
+          "integrity": null
+        },
+        "java": {
+          "status": "stable",
+          "path": "java/v0_2_0",
+          "integrity": null
+        },
+        "csharp": {
+          "status": "stable",
+          "path": "csharp/v0_2_0",
+          "integrity": null
+        }
+      }
+    },
     "0.1.0": {
-      "releaseDate": "2025-06-13",
+      "releaseDate": "2026-07-02",
       "minCliVersion": "0.1.0",
       "packageSchemaVersion": "0.1.0",
       "deprecated": false,
