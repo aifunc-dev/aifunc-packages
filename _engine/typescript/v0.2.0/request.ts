@@ -90,7 +90,15 @@ export async function* sendStreamRequest(
   }
 }
 
-async function* readSSEStream(body: ReadableStream<Uint8Array>): AsyncGenerator<string> {
+/** Duck-typed stream body; avoids the DOM `ReadableStream` global (missing from lib ES2020). */
+type ByteReadable = {
+  getReader(): {
+    read(): Promise<{ done: boolean; value?: Uint8Array }>;
+    releaseLock(): void;
+  };
+};
+
+async function* readSSEStream(body: ByteReadable): AsyncGenerator<string> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
   let buffer = '';
