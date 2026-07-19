@@ -41,7 +41,7 @@ The CLI detects your project language (TypeScript/Python) and generates fully ty
 
 | Package | Description | Install |
 |:---|:---|:---|
-| `chat` | Single-turn chat, string in, string out | `aifn install github:aifunc-dev/aifunc-packages/chat` |
+| `chat` | Single-turn reply with optional context | `aifn install github:aifunc-dev/aifunc-packages/chat` |
 | `generate-reply` | Contextual reply generation | `aifn install github:aifunc-dev/aifunc-packages/generate-reply` |
 | `generate-post` | Social media post generation | `aifn install github:aifunc-dev/aifunc-packages/generate-post` |
 | `generate-email` | Email generation from intent | `aifn install github:aifunc-dev/aifunc-packages/generate-email` |
@@ -58,7 +58,7 @@ The CLI detects your project language (TypeScript/Python) and generates fully ty
 
 | Package | Description | Install |
 |:---|:---|:---|
-| `chat-stream` | General-purpose conversational chat | `aifn install github:aifunc-dev/aifunc-packages/chat-stream` |
+| `chat-stream` | Stream a reply with optional context | `aifn install github:aifunc-dev/aifunc-packages/chat-stream` |
 | `answer-stream` | Detailed question answering, RAG-ready | `aifn install github:aifunc-dev/aifunc-packages/answer-stream` |
 | `explain-stream` | Explain a concept, code, or term | `aifn install github:aifunc-dev/aifunc-packages/explain-stream` |
 | `article-stream` | Full article from a title and outline | `aifn install github:aifunc-dev/aifunc-packages/article-stream` |
@@ -107,9 +107,10 @@ const config: AIFuncConfig = { baseURL: '...', model: '...', apiKey: '...' };
 
 async function main() {
   const input: ChatStreamInput = {
-    messages: [{ role: 'user', content: 'Explain async/await in JavaScript.' }],
+    message: 'Explain async/await in JavaScript.',
+    // context: 'Optional conversation history or background text.',
   };
-  for await (const token of await chatStream(config, input)) {
+  for await (const token of chatStream(config, input)) {
     process.stdout.write(token);
   }
 }
@@ -124,7 +125,10 @@ from aifunc.chat_stream import chat_stream, AIFuncConfig, ChatStreamInput
 config = AIFuncConfig(base_url="...", model="...", api_key="...")
 
 async def main():
-    input = ChatStreamInput(messages=[{"role": "user", "content": "Explain async/await in JavaScript."}])
+    input = ChatStreamInput(
+        message="Explain async/await in JavaScript.",
+        # context="Optional conversation history or background text.",
+    )
     async for token in await chat_stream(config, input):
         sys.stdout.write(token)
         sys.stdout.flush()

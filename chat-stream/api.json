@@ -1,42 +1,21 @@
 {
   "version": "1.0.0",
   "name": "chat_stream",
-  "description": "Stream a conversational AI reply from a message history. Returns plain text.",
+  "description": "Send a message and stream a plain-text reply. Optionally include context such as prior turns.",
   "input": {
     "type": "object",
     "properties": {
-      "messages": {
-        "type": "array",
-        "description": "Conversation history. Each item has a 'role' ('user' or 'assistant') and 'content' (string).",
-        "items": {
-          "type": "object",
-          "properties": {
-            "role": {
-              "type": "string",
-              "enum": ["user", "assistant"],
-              "description": "Message sender role."
-            },
-            "content": {
-              "type": "string",
-              "description": "Message text.",
-              "minLength": 1
-            }
-          },
-          "required": ["role", "content"],
-          "additionalProperties": false
-        },
-        "minItems": 1
-      },
-      "systemPrompt": {
+      "message": {
         "type": "string",
-        "description": "Optional system-level instruction that sets the assistant's persona, role, or constraints."
+        "description": "The user message.",
+        "minLength": 1
       },
-      "language": {
+      "context": {
         "type": "string",
-        "description": "Reply language. If omitted, matches the language of the last user message."
+        "description": "Optional conversation history or other background text the reply should take into account."
       }
     },
-    "required": ["messages"],
+    "required": ["message"],
     "additionalProperties": false
   },
   "output": {

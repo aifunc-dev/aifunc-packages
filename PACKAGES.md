@@ -27,11 +27,11 @@ aifunc-packages
 │   └── answer-question      Question answering (grounded or general)
 │
 ├── Understanding
-│   ├── chat                 General-purpose conversational chat
+│   ├── chat                 Single-turn reply with optional context
 │   └── recognize-intent     User intent recognition
 │
 └── Streaming
-    ├── chat-stream          General-purpose conversational chat
+    ├── chat-stream          Stream a reply with optional context
     ├── answer-stream        Detailed question answering, RAG-ready
     ├── explain-stream       Explain a concept, code, or term
     ├── article-stream       Full article from a title and outline
@@ -465,13 +465,14 @@ Answers a question based on provided context or general knowledge.
 
 ## chat
 
-Sends a single message and returns a plain-text reply. Simplest possible interface: string in, string out.
+Sends a message and returns a plain-text reply. Optionally include context such as prior turns.
 
 **Input:**
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| (string) | string | Yes | The user message. |
+| `message` | string | Yes | The user message. |
+| `context` | string | No | Optional conversation history or other background text the reply should take into account. |
 
 **Output:**
 
@@ -507,7 +508,7 @@ Recognizes user intent from conversational text, with confidence scores.
 
 ## chat-stream
 
-Streams a conversational AI reply from a message history. Returns plain text token by token.
+Sends a message and streams a plain-text reply token by token. Optionally include context such as prior turns.
 
 **Output mode:** streaming (`AsyncIterable<string>` / async generator)
 
@@ -515,9 +516,8 @@ Streams a conversational AI reply from a message history. Returns plain text tok
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `messages` | array | Yes | Conversation history. Each item has `role` (`"user"` or `"assistant"`) and `content` (string). Minimum 1 item. |
-| `systemPrompt` | string | No | System-level instruction that sets the assistant persona, role, or constraints. |
-| `language` | string | No | Reply language. If omitted, matches the language of the last user message. |
+| `message` | string | Yes | The user message. |
+| `context` | string | No | Optional conversation history or other background text the reply should take into account. |
 
 **Output:**
 

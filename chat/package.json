@@ -2,7 +2,7 @@
   "type": "standalone",
   "name": "chat",
   "displayName": "Chat",
-  "description": "Send a message and get a plain-text reply. Single-turn, string in, string out.",
+  "description": "Send a message and get a plain-text reply. Optionally include context such as prior turns.",
   "version": "1.0.0",
   "engine": "^0.2.0",
   "engineOptions": {

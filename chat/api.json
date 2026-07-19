@@ -1,11 +1,22 @@
 {
   "version": "1.0.0",
   "name": "chat",
-  "description": "Send a message and get a plain-text reply. Single-turn, string in, string out.",
+  "description": "Send a message and get a plain-text reply. Optionally include context such as prior turns.",
   "input": {
-    "type": "string",
-    "description": "The user message.",
-    "minLength": 1
+    "type": "object",
+    "properties": {
+      "message": {
+        "type": "string",
+        "description": "The user message.",
+        "minLength": 1
+      },
+      "context": {
+        "type": "string",
+        "description": "Optional conversation history or other background text the reply should take into account."
+      }
+    },
+    "required": ["message"],
+    "additionalProperties": false
   },
   "output": {
     "type": "string",

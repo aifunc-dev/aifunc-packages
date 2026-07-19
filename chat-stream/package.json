@@ -2,7 +2,7 @@
   "type": "standalone",
   "name": "chat-stream",
   "displayName": "Chat Stream",
-  "description": "Stream a conversational AI reply from a message history. Returns plain text.",
+  "description": "Send a message and stream a plain-text reply. Optionally include context such as prior turns.",
   "version": "1.0.0",
   "engine": "^0.2.0",
   "engineOptions": {
@@ -13,5 +13,5 @@
   },
   "license": "MIT",
   "categories": ["text", "chat", "productivity"],
-  "tags": ["chat", "conversation", "dialogue", "streaming", "assistant"]
+  "tags": ["chat", "reply", "assistant", "single-turn", "streaming"]
 }

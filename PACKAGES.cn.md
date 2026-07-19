@@ -27,11 +27,11 @@ aifunc-packages
 │   └── answer-question      问答（基于上下文或通用知识）
 │
 ├── 语义理解
-│   ├── chat                 通用对话
+│   ├── chat                 单轮回复，可选上下文
 │   └── recognize-intent     用户意图识别
 │
 └── 流式输出
-    ├── chat-stream          通用流式对话
+    ├── chat-stream          流式回复，可选上下文
     ├── answer-stream        详细问答，支持 RAG
     ├── explain-stream       解释概念、代码或术语
     ├── article-stream       根据标题/大纲生成完整文章
@@ -465,13 +465,14 @@ aifunc-packages
 
 ## chat
 
-发送一条消息并返回纯文本回复。最简接口：string 输入，string 输出。
+发送一条消息并返回纯文本回复。可选传入上下文（如先前对话）。
 
 **输入：**
 
 | 字段 | 类型 | 必填 | 说明 |
 |------|------|------|------|
-|（string）| string | 是 | 用户消息。 |
+| `message` | string | 是 | 用户消息。 |
+| `context` | string | 否 | 可选的对话历史或其他背景文本，供回复参考。 |
 
 **输出：**
 
@@ -507,7 +508,7 @@ aifunc-packages
 
 ## chat-stream
 
-从消息历史流式生成对话回复，逐 token 输出纯文本。
+发送一条消息并流式返回纯文本回复，逐 token 输出。可选传入上下文（如先前对话）。
 
 **输出模式：** 流式（`AsyncIterable<string>` / 异步生成器）
 
@@ -515,9 +516,8 @@ aifunc-packages
 
 | 字段 | 类型 | 必填 | 说明 |
 |------|------|------|------|
-| `messages` | array | 是 | 对话历史。每项包含 `role`（`"user"` 或 `"assistant"`）和 `content`（string）。至少 1 条。 |
-| `systemPrompt` | string | 否 | 系统级指令，设定助手的角色、人设或约束。 |
-| `language` | string | 否 | 回复语言。省略时匹配最后一条用户消息的语言。 |
+| `message` | string | 是 | 用户消息。 |
+| `context` | string | 否 | 可选的对话历史或其他背景文本，供回复参考。 |
 
 **输出：**
 
